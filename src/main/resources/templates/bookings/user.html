@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Bookings</title>
+  </head>
+  <body>
+    <h2>Your Bookings</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Spot</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Total Price</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="booking : ${bookings}">
+          <td th:text="${booking.parkingSpot.location}"></td>
+          <td th:text="${booking.startTime}"></td>
+          <td th:text="${booking.endTime}"></td>
+          <td th:text="${booking.totalPrice}"></td>
+          <td th:text="${booking.status}"></td>
+        </tr>
+      </tbody>
+    </table>
+    <a th:href="@{/parking-spots/select-time}">Book Another Spot</a>
+  </body>
+</html>

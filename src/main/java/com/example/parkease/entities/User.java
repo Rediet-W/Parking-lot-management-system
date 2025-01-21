@@ -6,6 +6,7 @@ import lombok.Data;
 @Entity
 @Data
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,6 +18,12 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String role; // "admin" or "user"
-}
+    private String role;
 
+
+public User() {
+    }
+    public User(Long id) {
+        this.id = id;
+    }
+}

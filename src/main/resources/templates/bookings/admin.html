@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Bookings</title>
+  </head>
+  <body>
+    <h2>All Bookings</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Spot</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Total Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="booking : ${bookings}">
+          <td th:text="${booking.user.email}"></td>
+          <td th:text="${booking.parkingSpot.location}"></td>
+          <td th:text="${booking.startTime}"></td>
+          <td th:text="${booking.endTime}"></td>
+          <td th:text="${booking.totalPrice}"></td>
+          <td th:text="${booking.status}"></td>
+          <td>
+            <a th:href="@{/bookings/cancel/{id}(id=${booking.id})}">Cancel</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

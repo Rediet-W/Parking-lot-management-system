@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parking Spot Management</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <h2>All Parking Spots</h2>
+    <a href="/parking-spots/admin/add">Add Parking Spot</a>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Location</th>
+          <th>Type</th>
+          <th>Price Per Hour</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="spot : ${parkingSpots}">
+          <td th:text="${spot.id}"></td>
+          <td th:text="${spot.location}"></td>
+          <td th:text="${spot.type}"></td>
+          <td th:text="${spot.pricePerHour}"></td>
+          <td>
+            <a th:href="@{/parking-spots/admin/edit/{id}(id=${spot.id})}"
+              >Edit</a
+            >
+            <a
+              th:href="@{/parking-spots/admin/delete/{id}(id=${spot.id})}"
+              onclick="return confirm('Are you sure?')"
+              >Delete</a
+            >
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

@@ -1,9 +1,11 @@
 import React from "react";
 import AppRoutes from "./routes/routes.jsx";
+import Navbar from "./components/NavBar.jsx";
 
 function App() {
   return (
-    <div className="bg-gray-100 min-h-screen">
+    <div className="min-h-screen bg-green-100 ">
+      <Navbar />
       <AppRoutes />
     </div>
   );
