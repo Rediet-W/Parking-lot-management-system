@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
+    <h2>Admin Dashboard</h2>
+
+    <form method="get" th:action="@{/admin/dashboard}">
+      <label for="start">Start Date:</label>
+      <input type="date" id="start" name="start" />
+      <label for="end">End Date:</label>
+      <input type="date" id="end" name="end" />
+      <button type="submit">Filter</button>
+    </form>
+
+    <h3>Total Revenue: <span th:text="${totalRevenue}"></span> ETB</h3>
+    <p>Active Bookings: <span th:text="${activeBookings}"></span></p>
+    <p>Completed Bookings: <span th:text="${completedBookings}"></span></p>
+    <p>Cancelled Bookings: <span th:text="${cancelledBookings}"></span></p>
+
+    <h3>Bookings</h3>
+    <table border="1">
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Parking Spot</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Status</th>
+      </tr>
+      <tr th:each="booking : ${bookings}">
+        <td th:text="${booking.id}"></td>
+        <td th:text="${booking.user.email}"></td>
+        <td th:text="${booking.parkingSpot.location}"></td>
+        <td th:text="${booking.startTime}"></td>
+        <td th:text="${booking.endTime}"></td>
+        <td th:text="${booking.status}"></td>
+      </tr>
+    </table>
+  </body>
+</html>

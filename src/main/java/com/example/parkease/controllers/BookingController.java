@@ -81,14 +81,14 @@ public String showBookingForm(
     ) {
         System.out.println("Received parkingSpotId: " + parkingSpotId); 
         try {
-            bookingService.createBooking(
+            Booking booking = bookingService.createBooking(
                     userId,
                     parkingSpotId,
                     LocalDateTime.parse(startTime),
                     LocalDateTime.parse(endTime),
                     vehicleNumber
             );
-            return "redirect:/bookings/user?userId=" + userId; // ✅ Redirect if successful
+           return "redirect:/payments/" + booking.getId(); // ✅ Redirect if successful
     
         } catch (RuntimeException e) {
             model.addAttribute("errorMessage", e.getMessage()); // ✅ Pass error to the form
@@ -116,9 +116,25 @@ public String viewAllBookings(Model model) {
 }
 
 @GetMapping("/cancel/{id}")
-public String cancelBooking(@PathVariable Long id) {
-    bookingService.cancelBooking(id);
-    return "redirect:/bookings/admin"; // ✅ Redirect back to the admin booking list
+public String cancelBooking(@PathVariable Long id, Principal principal, Model model) {
+    User user = userService.getUserByEmail(principal.getName())
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    try {
+        bookingService.cancelBooking(id, user.getId(), false);
+        return "redirect:/bookings/user?userId=" + user.getId();
+    } catch (RuntimeException e) {
+        model.addAttribute("errorMessage", e.getMessage());
+        return "bookings/user"; // Stay on the same page with error
+    }
 }
+
+// 🔵 Admin Cancel Any Booking
+@GetMapping("/admin/cancel/{id}")
+public String adminCancelBooking(@PathVariable Long id) {
+    bookingService.cancelBooking(id, null, true);
+    return "redirect:/bookings/admin";
+}
+
 
 }

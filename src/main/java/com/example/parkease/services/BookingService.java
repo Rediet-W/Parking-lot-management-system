@@ -9,9 +9,14 @@ import com.example.parkease.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class BookingService {
@@ -53,12 +58,28 @@ public class BookingService {
         return bookingRepository.save(booking);
     }
 
-    public void cancelBooking(Long bookingId) {
+    public void cancelBooking(Long bookingId, Long userId, boolean isAdmin) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new RuntimeException("Booking not found"));
-        booking.setStatus("Cancelled");
+    
+        if (!isAdmin && !booking.getUser().getId().equals(userId)) {
+            throw new RuntimeException("You can only cancel your own bookings!");
+        }
+    
+        if (LocalDateTime.now().isAfter(booking.getStartTime())) {
+            throw new RuntimeException("Booking has already started, cancellation not allowed!");
+        }
+    
+        // ✅ Refund Simulation
+        if ("Completed".equals(booking.getStatus())) {
+            booking.setStatus("Refunded"); // Simulate refund
+        } else {
+            booking.setStatus("Cancelled");
+        }
+    
         bookingRepository.save(booking);
     }
+    
 
     public List<Booking> getBookingsByUser(Long userId) {
         return bookingRepository.findByUserId(userId);
@@ -67,4 +88,57 @@ public class BookingService {
     public List<Booking> getAllBookings() {
         return bookingRepository.findAll();
     }
+
+
+    //payment
+    public Booking getBookingById(Long id) {
+        return bookingRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+    }
+    public void processPayment(Long bookingId, String paymentMethod) {
+        Booking booking = getBookingById(bookingId);
+
+        if (!"Pending".equals(booking.getPaymentStatus())) {
+            throw new RuntimeException("Payment already processed for this booking.");
+        }
+
+        booking.setPaymentStatus("Paid");
+        booking.setPaymentMethod(paymentMethod);
+        bookingRepository.save(booking);
+    }
+
+    public void markPaymentAsPaid(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Booking not found"));
+    
+        if (!booking.getStatus().equals("Completed")) {
+            booking.setPaymentStatus("Paid");
+            bookingRepository.save(booking);
+        }
+    }
+    
+
+    public Map<String, Object> getDashboardData(LocalDate startDate, LocalDate endDate) {
+    List<Booking> allBookings = bookingRepository.findAll();
+
+    double totalRevenue = allBookings.stream()
+            .filter(booking -> "Completed".equals(booking.getStatus()))
+            .mapToDouble(Booking::getTotalPrice)
+            .sum();
+
+    long activeBookings = allBookings.stream().filter(b -> "Active".equals(b.getStatus())).count();
+    long completedBookings = allBookings.stream().filter(b -> "Completed".equals(b.getStatus())).count();
+    long cancelledBookings = allBookings.stream().filter(b -> "Cancelled".equals(b.getStatus())).count();
+
+    return Map.of(
+            "totalRevenue", totalRevenue,
+            "activeBookings", activeBookings,
+            "completedBookings", completedBookings,
+            "cancelledBookings", cancelledBookings,
+            "bookings", allBookings.stream()
+                    .filter(b -> !b.getStartTime().toLocalDate().isBefore(startDate) &&
+                                 !b.getEndTime().toLocalDate().isAfter(endDate))
+                    .collect(Collectors.toList())
+    );
+}
 }

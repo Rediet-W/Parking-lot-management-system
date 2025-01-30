@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/static/css/style.css" />
   </head>
   <body>
+    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
+
     <h2>Add Parking Spot</h2>
     <form
       th:action="@{/parking-spots/admin}"

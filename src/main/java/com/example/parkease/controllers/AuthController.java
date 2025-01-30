@@ -47,8 +47,8 @@ public class AuthController {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        // Redirect to the dashboard after successful registration and login
         return "redirect:/dashboard";
+        
     }
 
     @GetMapping("/login")

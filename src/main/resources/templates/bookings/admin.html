@@ -6,6 +6,7 @@
     <title>All Bookings</title>
   </head>
   <body>
+    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
     <h2>All Bookings</h2>
     <table>
       <thead>
@@ -27,8 +28,15 @@
           <td th:text="${booking.endTime}"></td>
           <td th:text="${booking.totalPrice}"></td>
           <td th:text="${booking.status}"></td>
+
           <td>
-            <a th:href="@{/bookings/cancel/{id}(id=${booking.id})}">Cancel</a>
+            <span th:text="${booking.status}"></span>
+            <a
+              th:if="${booking.status == 'Active' || booking.status == 'Completed'}"
+              th:href="@{/bookings/admin/cancel/{id}(id=${booking.id})}"
+            >
+              Cancel
+            </a>
           </td>
         </tr>
       </tbody>

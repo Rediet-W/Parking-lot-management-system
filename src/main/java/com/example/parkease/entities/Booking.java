@@ -35,4 +35,10 @@ public class Booking {
 
     @Column(nullable = false)  // 🔴 Fix: Add vehicle number as required field
     private String vehicleNumber;
+
+    @Column(nullable = false)
+    private String paymentStatus = "Pending"; // Default is Pending
+
+    @Column(nullable = true)
+    private String paymentMethod; // Can be Telebirr, Chapa, or M-Pesa
 }

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
+
+    <h2>Payment for Booking #<span th:text="${booking.id}"></span></h2>
+    <p>Parking Spot: <span th:text="${booking.parkingSpot.location}"></span></p>
+    <p>Amount: <strong th:text="${booking.totalPrice}"></strong> ETB</p>
+    <p>Status: <strong th:text="${booking.paymentStatus}"></strong></p>
+
+    <!-- ✅ Show Error Message If Payment Fails -->
+    <div th:if="${errorMessage}" style="color: red">
+      <p th:text="${errorMessage}"></p>
+    </div>
+
+    <!-- ✅ Show Payment Form Only If Not Paid -->
+    <div th:if="${booking.paymentStatus == 'Pending'}">
+      <h3>Select Payment Method</h3>
+      <form th:action="@{/payments/pay}" method="post">
+        <input type="hidden" name="bookingId" th:value="${booking.id}" />
+        <label>
+          <input type="radio" name="paymentMethod" value="Telebirr" required />
+          Telebirr </label
+        ><br />
+        <label>
+          <input type="radio" name="paymentMethod" value="Chapa" required />
+          Chapa </label
+        ><br />
+        <label>
+          <input type="radio" name="paymentMethod" value="M-Pesa" required />
+          M-Pesa </label
+        ><br /><br />
+        <button type="submit">Confirm Payment</button>
+      </form>
+    </div>
+
+    <!-- ✅ After Payment, Show Button to Go to Bookings -->
+    <div th:if="${booking.paymentStatus == 'Paid'}">
+      <p style="color: green">✅ Payment Completed.</p>
+      <a th:href="@{/bookings/user(userId=${booking.user.id})}">
+        <button>Go to My Bookings</button>
+      </a>
+    </div>
+  </body>
+</html>

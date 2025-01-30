@@ -27,6 +27,7 @@ public class SecurityConfig {
                 .requestMatchers("/login", "/register", "/css/**", "/js/**").permitAll()
                 .requestMatchers("/parking-spots/available", "/css/**", "/js/**").permitAll() // Public access
             .requestMatchers("/parking-spots/admin/**").hasRole("admin") // Admin-only access
+            .requestMatchers("/admin/dashboard/**").hasRole("admin")
 
                 .anyRequest().authenticated()
             )

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ParkEase</title>
+    <link rel="stylesheet" href="/static/css/style.css" />
+  </head>
+  <body>
+    <div th:fragment="navbar">
+      <nav>
+        <a href="/dashboard">Home</a>
+        <a href="/bookings/user?userId=1">My Bookings</a>
+
+        <!-- 🔔 Notification Bell -->
+        <div class="notification-container">
+          <span
+            id="notification-bell"
+            class="bell"
+            onclick="toggleNotifications()"
+          >
+            🔔
+            <span
+              id="notification-count"
+              class="notification-badge"
+              th:if="${unreadCount > 0}"
+              th:text="${unreadCount}"
+            ></span>
+          </span>
+
+          <div id="notification-dropdown" class="notification-dropdown">
+            <p>No new notifications</p>
+          </div>
+        </div>
+      </nav>
+
+      <script>
+        function toggleNotifications() {
+          document
+            .getElementById("notification-dropdown")
+            .classList.toggle("show");
+
+          // Mark notifications as read when opened
+          fetch("/notifications/mark-read", { method: "POST" }).then(
+            () =>
+              (document.getElementById("notification-count").style.display =
+                "none")
+          );
+        }
+      </script>
+    </div>
+  </body>
+</html>
