@@ -4,10 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Edit Parking Spot</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+
+    <link rel="stylesheet" th:href="@{/css/parking-spots.css}" />
   </head>
   <body>
-    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
+    <div th:replace="~{fragments/admin-navbar :: admin-navbar}"></div>
 
     <h2>Edit Parking Spot</h2>
     <form
@@ -23,17 +25,17 @@
 
       <label for="type">Type:</label>
       <select id="type" th:field="*{type}">
-        <option value="Compact" th:selected="${parkingSpot.type == 'Compact'}">
-          Compact
+        <option value="Street" th:selected="${parkingSpot.type == 'Street'}">
+          Street
         </option>
-        <option value="Large" th:selected="${parkingSpot.type == 'Large'}">
-          Large
+        <option value="Outdoor" th:selected="${parkingSpot.type == 'Outdoor'}">
+          Outdoor
         </option>
         <option
-          value="Electric"
-          th:selected="${parkingSpot.type == 'Electric'}"
+          value="Basement"
+          th:selected="${parkingSpot.type == 'Basement'}"
         >
-          Electric
+          Basement
         </option>
       </select>
       <br />

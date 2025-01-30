@@ -4,17 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Available Parking Spots</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" th:href="@{/css/parking-spots.css}" />
   </head>
   <body>
     <div th:replace="~{fragments/navbar :: navbar}">Header</div>
 
     <h2>Available Parking Spots</h2>
 
-    <p>Showing results for:</p>
-    <p>Start Time: <span th:text="${startTime}"></span></p>
-    <p>End Time: <span th:text="${endTime}"></span></p>
+    <!-- Extract Date from the String (Splitting at 'T') -->
+    <p>
+      Date:
+      <span
+        th:if="${startTime != null}"
+        th:text="${#strings.substringBefore(startTime, 'T')}"
+      ></span>
+    </p>
 
+    <!-- Extract Start Time (HH:mm format) -->
+    <p>
+      Start Time:
+      <span
+        th:if="${startTime != null}"
+        th:text="${#strings.substringAfter(startTime, 'T')}"
+      ></span>
+    </p>
+
+    <!-- Extract End Time (HH:mm format) -->
+    <p>
+      End Time:
+      <span
+        th:if="${endTime != null}"
+        th:text="${#strings.substringAfter(endTime, 'T')}"
+      ></span>
+    </p>
     <table border="1">
       <thead>
         <tr>
@@ -32,8 +55,9 @@
           <td>
             <a
               th:href="@{/bookings/create(spotId=${spot.id}, startTime=${startTime}, endTime=${endTime})}"
-              >Book</a
             >
+              Book
+            </a>
           </td>
         </tr>
       </tbody>

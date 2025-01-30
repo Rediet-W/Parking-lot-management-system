@@ -4,19 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Payment</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+
+    <link rel="stylesheet" th:href="@{/css/payment.css}" />
   </head>
   <body>
     <div th:replace="~{fragments/navbar :: navbar}">Header</div>
 
-    <h2>Payment for Booking #<span th:text="${booking.id}"></span></h2>
+    <h2>Payment for Booking </span></h2>
     <p>Parking Spot: <span th:text="${booking.parkingSpot.location}"></span></p>
     <p>Amount: <strong th:text="${booking.totalPrice}"></strong> ETB</p>
     <p>Status: <strong th:text="${booking.paymentStatus}"></strong></p>
 
-    <!-- ✅ Show Error Message If Payment Fails -->
-    <div th:if="${errorMessage}" style="color: red">
+    <div th:if="${errorMessage}" class="error-message">
       <p th:text="${errorMessage}"></p>
+    </div>
+
+    <div th:if="${booking.paymentStatus == 'Paid'}" class="success-message">
+      <p>✅ Payment Completed.</p>
+      <a th:href="@{/bookings/user(userId=${booking.user.id})}">
+        <button>Go to My Bookings</button>
+      </a>
     </div>
 
     <!-- ✅ Show Payment Form Only If Not Paid -->

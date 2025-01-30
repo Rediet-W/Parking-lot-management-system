@@ -4,38 +4,76 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Payment Details</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin-payments.css}" />
   </head>
   <body>
-    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
-    <h2>Payment Details for Booking #<span th:text="${booking.id}"></span></h2>
+    <div th:replace="~{fragments/admin-navbar :: admin-navbar}"></div>
 
-    <p><strong>User:</strong> <span th:text="${booking.user.email}"></span></p>
-    <p>
-      <strong>Parking Spot:</strong>
-      <span th:text="${booking.parkingSpot.location}"></span>
-    </p>
-    <p>
-      <strong>Start Time:</strong> <span th:text="${booking.startTime}"></span>
-    </p>
-    <p><strong>End Time:</strong> <span th:text="${booking.endTime}"></span></p>
-    <p>
-      <strong>Amount:</strong> <span th:text="${booking.totalPrice}"></span> ETB
-    </p>
-    <p><strong>Status:</strong> <span th:text="${booking.status}"></span></p>
-    <p>
-      <strong>Vehicle Number:</strong>
-      <span th:text="${booking.vehicleNumber}"></span>
-    </p>
+    <div class="container payment-details">
+      <h2>
+        Payment Details for Booking </span>
+      </h2>
 
-    <form
-      th:action="@{/admin/payments/mark-paid/{id}(id=${booking.id})}"
-      method="post"
-      th:if="${booking.status != 'Completed'}"
-    >
-      <button type="submit">Mark as Paid</button>
-    </form>
+      <div class="details-card">
+        <p>
+          <strong>User:</strong> <span th:text="${booking.user.email}"></span>
+        </p>
+        <p>
+          <strong>Parking Spot:</strong>
+          <span th:text="${booking.parkingSpot.location}"></span>
+        </p>
 
-    <a href="/admin/payments">Back to Payments</a>
+        <!-- Extracting Date from Start Time -->
+        <p>
+          <strong>Date:</strong>
+          <span
+            th:text="${#strings.substring(booking.startTime, 0, 10)}"
+          ></span>
+        </p>
+
+        <!-- Showing only the Time -->
+        <p>
+          <strong>Start Time:</strong>
+          <span
+            th:text="${#strings.substring(booking.startTime, 11, 16)}"
+          ></span>
+        </p>
+        <p>
+          <strong>End Time:</strong>
+          <span th:text="${#strings.substring(booking.endTime, 11, 16)}"></span>
+        </p>
+
+        <p>
+          <strong>Amount:</strong>
+          <span th:text="${booking.totalPrice}"></span> ETB
+        </p>
+        <p>
+          <strong>Payment Status:</strong>
+          <span
+            th:text="${booking.paymentStatus}"
+            th:classappend="${booking.paymentStatus == 'Pending' ? 'pending' : 'paid'}"
+          ></span>
+        </p>
+        <p>
+          <strong>Vehicle Number:</strong>
+          <span th:text="${booking.vehicleNumber}"></span>
+        </p>
+        <p>
+          <strong>Payment Method:</strong>
+          <span th:text="${booking.paymentMethod} ?: 'N/A'"></span>
+        </p>
+      </div>
+
+      <form
+        th:action="@{/admin/payments/mark-paid/{id}(id=${booking.id})}"
+        method="post"
+        th:if="${booking.paymentStatus != 'Paid'}"
+      >
+        <button type="submit" class="btn-pay">Mark as Paid</button>
+      </form>
+
+      <a href="/admin/payments" class="btn-back">Back to Payments</a>
+    </div>
   </body>
 </html>

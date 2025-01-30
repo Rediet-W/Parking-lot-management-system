@@ -4,43 +4,63 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" th:href="@{/css/admindashboard.css}" />
   </head>
   <body>
-    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
-    <h2>Admin Dashboard</h2>
+    <div th:replace="~{fragments/admin-navbar :: admin-navbar}"></div>
 
-    <form method="get" th:action="@{/admin/dashboard}">
-      <label for="start">Start Date:</label>
-      <input type="date" id="start" name="start" />
-      <label for="end">End Date:</label>
-      <input type="date" id="end" name="end" />
-      <button type="submit">Filter</button>
-    </form>
+    <div class="dashboard-container">
+      <h2>Admin Dashboard</h2>
 
-    <h3>Total Revenue: <span th:text="${totalRevenue}"></span> ETB</h3>
-    <p>Active Bookings: <span th:text="${activeBookings}"></span></p>
-    <p>Completed Bookings: <span th:text="${completedBookings}"></span></p>
-    <p>Cancelled Bookings: <span th:text="${cancelledBookings}"></span></p>
+      <!-- Filter Form -->
+      <form method="get" th:action="@{/admin/dashboard}" class="filter-form">
+        <label for="start">Start Date:</label>
+        <input type="date" id="start" name="start" />
+        <label for="end">End Date:</label>
+        <input type="date" id="end" name="end" />
+        <button type="submit">Filter</button>
+      </form>
 
-    <h3>Bookings</h3>
-    <table border="1">
-      <tr>
-        <th>ID</th>
-        <th>User</th>
-        <th>Parking Spot</th>
-        <th>Start Time</th>
-        <th>End Time</th>
-        <th>Status</th>
-      </tr>
-      <tr th:each="booking : ${bookings}">
-        <td th:text="${booking.id}"></td>
-        <td th:text="${booking.user.email}"></td>
-        <td th:text="${booking.parkingSpot.location}"></td>
-        <td th:text="${booking.startTime}"></td>
-        <td th:text="${booking.endTime}"></td>
-        <td th:text="${booking.status}"></td>
-      </tr>
-    </table>
+      <!-- Stats Section -->
+      <div class="stats-container">
+        <h3>Total Revenue: <span th:text="${totalRevenue}"></span> ETB</h3>
+        <p>Active Bookings: <span th:text="${activeBookings}"></span></p>
+        <p>Completed Bookings: <span th:text="${completedBookings}"></span></p>
+        <p>Cancelled Bookings: <span th:text="${cancelledBookings}"></span></p>
+      </div>
+
+      <h3>Bookings</h3>
+
+      <!-- Bookings Table -->
+      <table class="bookings-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Parking Spot</th>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="booking : ${bookings}">
+            <td th:text="${booking.id}"></td>
+            <td th:text="${booking.user.email}"></td>
+            <td th:text="${booking.parkingSpot.location}"></td>
+            <td
+              th:text="${#strings.substringBefore(booking.startTime, 'T')}"
+            ></td>
+            <td
+              th:text="${#strings.substringAfter(booking.startTime, 'T')}"
+            ></td>
+            <td th:text="${#strings.substringAfter(booking.endTime, 'T')}"></td>
+            <td th:text="${booking.status}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

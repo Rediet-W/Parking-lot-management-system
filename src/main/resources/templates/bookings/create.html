@@ -4,50 +4,51 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Book Parking Spot</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" th:href="@{/css/bookings.css}" />
   </head>
   <body>
-    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <h2>Book a Parking Spot</h2>
 
-    <!-- ✅ Show Error Message If Booking Fails -->
-    <div th:if="${errorMessage}" style="color: red">
-      <p th:text="${errorMessage}"></p>
-    </div>
-
     <form th:action="@{/bookings/confirm}" method="post">
-      <!-- ✅ Ensure These Fields Are Present -->
+      <!-- Hidden Inputs to Submit Unchanged Values -->
       <input type="hidden" name="userId" th:value="${userId}" />
       <input type="hidden" name="parkingSpotId" th:value="${parkingSpotId}" />
-      <!-- 🔴 Fix: Ensure this is present -->
+      <input type="hidden" name="startTime" th:value="${startTime}" />
+      <input type="hidden" name="endTime" th:value="${endTime}" />
 
-      <label for="startTime">Start Time:</label>
-      <input
-        type="datetime-local"
-        id="startTime"
-        name="startTime"
-        th:value="${startTime}"
-        required
-      /><br />
-
-      <label for="endTime">End Time:</label>
-      <input
-        type="datetime-local"
-        id="endTime"
-        name="endTime"
-        th:value="${endTime}"
-        required
-      /><br />
-
-      <label for="vehicleNumber">Vehicle Number:</label>
+      <!-- Display Date -->
+      <label for="date">Date:</label>
       <input
         type="text"
-        id="vehicleNumber"
-        name="vehicleNumber"
-        th:value="${vehicleNumber}"
-        required
-      /><br />
+        id="date"
+        th:value="${#strings.substringBefore(startTime, 'T')}"
+        readonly
+      />
+
+      <!-- Display Start Time -->
+      <label for="startTimeDisplay">Start Time:</label>
+      <input
+        type="text"
+        id="startTimeDisplay"
+        th:value="${#strings.substringAfter(startTime, 'T')}"
+        readonly
+      />
+
+      <!-- Display End Time -->
+      <label for="endTimeDisplay">End Time:</label>
+      <input
+        type="text"
+        id="endTimeDisplay"
+        th:value="${#strings.substringAfter(endTime, 'T')}"
+        readonly
+      />
+
+      <!-- Vehicle Number Input -->
+      <label for="vehicleNumber">Vehicle Number:</label>
+      <input type="text" id="vehicleNumber" name="vehicleNumber" required />
 
       <button type="submit">Confirm Booking</button>
     </form>

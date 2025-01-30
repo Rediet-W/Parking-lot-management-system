@@ -1,22 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <meta charset="UTF-8" />
-    <title>ParkEase</title>
+    <title>ParkEase - Admin</title>
     <link rel="stylesheet" th:href="@{/css/navbar.css}" />
   </head>
   <body>
-    <div th:fragment="navbar">
+    <div th:fragment="admin-navbar">
       <nav>
         <!-- Left Side: Logo -->
         <div class="nav-left">
-          <a href="/dashboard" class="logo">ParkEase</a>
+          <a href="/admin/dashboard" class="logo">ParkEase</a>
         </div>
 
         <!-- Right Side: Links -->
         <div class="nav-right">
-          <a href="/dashboard">Home</a>
-          <a href="/bookings/user?userId=1">My Bookings</a>
+          <a href="/admin/dashboard">Dashboard</a>
+          <a href="/admin/payments">Payments</a>
+          <a href="/parking-spots/admin">Parking Spots</a>
 
           <!-- 🔔 Notification Bell -->
           <div class="notification-container">

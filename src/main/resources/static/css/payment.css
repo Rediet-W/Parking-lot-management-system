@@ -1,0 +1,91 @@
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f9;
+  color: #333;
+  text-align: center;
+}
+
+h2 {
+  color: #333;
+  margin-top: 20px;
+}
+
+p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+/* Payment Section */
+form {
+  width: 90%;
+  max-width: 400px;
+  background: white;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+/* Button Styling */
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* ✅ Fixed Success and Error Messages */
+.error-message {
+  background-color: #ffdddd;
+  color: red;
+  border-left: 5px solid red;
+  padding: 10px;
+  margin: 20px auto;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.success-message {
+  background-color: #ddffdd;
+  color: green;
+  border-left: 5px solid green;
+  padding: 10px;
+  margin: 20px auto;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+  form {
+    width: 100%;
+  }
+
+  button {
+    font-size: 14px;
+  }
+}

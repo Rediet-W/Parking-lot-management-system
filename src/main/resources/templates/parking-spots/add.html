@@ -4,10 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Parking Spot</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+
+    <link rel="stylesheet" th:href="@{/css/parking-spots.css}" />
   </head>
   <body>
-    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
+    <div th:replace="~{fragments/admin-navbar :: admin-navbar}"></div>
 
     <h2>Add Parking Spot</h2>
     <form
@@ -21,9 +23,9 @@
 
       <label for="type">Type:</label>
       <select id="type" th:field="*{type}">
-        <option value="Compact">Compact</option>
-        <option value="Large">Large</option>
-        <option value="Electric">Electric</option>
+        <option value="Street">Street</option>
+        <option value="Outdoor">Outdoor</option>
+        <option value="Basement">Basement</option>
       </select>
       <br />
 

@@ -4,21 +4,61 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Select Time for Booking</title>
-    <link rel="stylesheet" href="/static/css/style.css" />
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" th:href="@{/css/bookings.css}" />
   </head>
   <body>
-    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
 
     <h2>Select Booking Time</h2>
 
-    <form th:action="@{/parking-spots/available}" method="get">
-      <label for="startTime">Start Time:</label>
-      <input type="datetime-local" id="startTime" name="startTime" required />
+    <form
+      id="booking-form"
+      th:action="@{/parking-spots/available}"
+      method="get"
+      onsubmit="prepareDateTime()"
+    >
+      <!-- Date Selection -->
+      <label for="bookingDate">Booking Date:</label>
+      <input type="date" id="bookingDate" required />
 
+      <!-- Start Time Selection -->
+      <label for="startTime">Start Time:</label>
+      <input type="time" id="startTime" required />
+
+      <!-- End Time Selection -->
       <label for="endTime">End Time:</label>
-      <input type="datetime-local" id="endTime" name="endTime" required />
+      <input type="time" id="endTime" required />
+
+      <!-- Hidden Inputs to Send Correct Data -->
+      <input type="hidden" id="formattedStartTime" name="startTime" />
+      <input type="hidden" id="formattedEndTime" name="endTime" />
 
       <button type="submit">Find Available Spots</button>
     </form>
+
+    <script>
+      function prepareDateTime() {
+        let date = document.getElementById("bookingDate").value;
+        let startTime = document.getElementById("startTime").value;
+        let endTime = document.getElementById("endTime").value;
+
+        if (!date || !startTime || !endTime) {
+          alert("Please select a date, start time, and end time.");
+          return false;
+        }
+
+        // Combine date and time into datetime-local format
+        let formattedStartTime = `${date}T${startTime}`;
+        let formattedEndTime = `${date}T${endTime}`;
+
+        // Set hidden input values before submission
+        document.getElementById("formattedStartTime").value =
+          formattedStartTime;
+        document.getElementById("formattedEndTime").value = formattedEndTime;
+
+        return true; // Allow form submission
+      }
+    </script>
   </body>
 </html>

@@ -1,0 +1,138 @@
+/* Navigation Bar */
+nav {
+  background-color: #2c3e50;
+  color: white;
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Side (Logo) */
+.nav-left .logo {
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  color: white;
+}
+
+/* Right Side (Links) */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Navigation Links */
+.nav-right a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.nav-right a:hover {
+  color: #f39c12;
+}
+
+/* Notification Bell */
+.notification-container {
+  position: relative;
+  cursor: pointer;
+}
+
+.bell {
+  font-size: 20px;
+  position: relative;
+}
+
+.notification-badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 4px 8px;
+  font-size: 12px;
+  position: absolute;
+  top: -5px;
+  right: -10px;
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: white;
+  color: black;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  width: 200px;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+.notification-dropdown.show {
+  display: block;
+}
+
+/* Logout Overlay */
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.overlay-content {
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.overlay button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.overlay button:first-child {
+  background: #e74c3c;
+  color: white;
+}
+
+.overlay button:last-child {
+  background: #bdc3c7;
+}
+
+/* Show Overlay */
+.show-overlay {
+  display: flex;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-right {
+    flex-direction: column;
+    width: 100%;
+    text-align: left;
+  }
+
+  .nav-right a {
+    margin-bottom: 10px;
+  }
+}

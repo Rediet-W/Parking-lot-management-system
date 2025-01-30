@@ -1,0 +1,75 @@
+/* Admin Dashboard Container */
+.dashboard-container {
+  max-width: 90%;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Filter Form */
+.filter-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.filter-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.filter-form button {
+  background-color: #f39c12;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.filter-form button:hover {
+  background-color: #e67e22;
+}
+
+/* Stats Section */
+.stats-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.stats-container h3 {
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+/* Bookings Table */
+.bookings-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bookings-table th,
+.bookings-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.bookings-table th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.bookings-table tr:hover {
+  background-color: #f4f4f4;
+}

@@ -4,15 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>All Bookings</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+    <link rel="stylesheet" th:href="@{/css/bookings.css}" />
   </head>
   <body>
-    <div th:replace="~{fragments/navbar :: navbar}">Header</div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
     <h2>All Bookings</h2>
+
     <table>
       <thead>
         <tr>
           <th>User</th>
           <th>Spot</th>
+          <th>Date</th>
           <th>Start Time</th>
           <th>End Time</th>
           <th>Total Price</th>
@@ -24,16 +29,20 @@
         <tr th:each="booking : ${bookings}">
           <td th:text="${booking.user.email}"></td>
           <td th:text="${booking.parkingSpot.location}"></td>
-          <td th:text="${booking.startTime}"></td>
-          <td th:text="${booking.endTime}"></td>
+          <!-- Extract Date from Start Time -->
+          <td
+            th:text="${#strings.substringBefore(booking.startTime, 'T')}"
+          ></td>
+          <!-- Extract Only Time -->
+          <td th:text="${#strings.substringAfter(booking.startTime, 'T')}"></td>
+          <td th:text="${#strings.substringAfter(booking.endTime, 'T')}"></td>
           <td th:text="${booking.totalPrice}"></td>
           <td th:text="${booking.status}"></td>
-
           <td>
-            <span th:text="${booking.status}"></span>
             <a
               th:if="${booking.status == 'Active' || booking.status == 'Completed'}"
               th:href="@{/bookings/admin/cancel/{id}(id=${booking.id})}"
+              class="btn-cancel"
             >
               Cancel
             </a>
